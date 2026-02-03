@@ -1,7 +1,8 @@
+import capivara from "../assets/capivara-planodefundo.png"
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import capivara from "../assets/capivara-planodefundo5.png";
 import { api } from "../service/api";
+import { useNavigate } from "react-router-dom";
+
 
 export function Cadastro() {
   const navigate = useNavigate();
