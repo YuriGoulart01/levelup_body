@@ -6,22 +6,6 @@ export const perfilResumoMock = {
   foto: "/avatar/avatar-user.png", // <-- imagem real
 };
 
-export const perfilDashboardMock = {
-  treinosSemana: {
-    feitos: 3,
-    meta: 4,
-  },
-  proximoTreino: {
-    tipo: "Força em casa",
-    duracaoMin: 30,
-  },
-  tempoMedioMin: 35,
-  streak: {
-    dias: 7,
-    ativa: true,
-  },
-};
-
 export const historicoEvolucaoMock = [
   {
     data: "20/09/2024",

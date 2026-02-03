@@ -1,79 +1,90 @@
 import { useState } from "react";
-import { objetivoMock } from "../../../mocks/objetivo.mock";
 import CalculadoraIMC from "./CalculadoraIMC";
 import MensagemMotivacional from "./MensagemMotivacional";
+import { useAuth } from "../../../contexts/AuthContext";
+import { DadosService } from "../../../service/dados.api";
 
-
-type Props = {
-  objetivo: "gordura" | "massa" | "resistencia";
-  periodo: "mensal" | "trimestral" | "semestral";
+type ResultadoIMC = {
+  imc: number;
+  classificacao: string;
 };
 
-export default function ObjetivoConteudo({ objetivo, periodo }: Props) {
-  const [imc, setImc] = useState<number | null>(null);
-  const [classificacao, setClassificacao] = useState("");
+export default function ObjetivoConteudo() {
+  const { usuario } = useAuth();
 
-  const plano = objetivoMock[objetivo].planos[periodo];
+  const [resultado, setResultado] = useState<ResultadoIMC | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [sucesso, setSucesso] = useState(false);
+
+  async function handleCalcular(
+    imc: number,
+    classificacao: string,
+    peso: number,
+    altura: number
+  ) {
+    if (!usuario) return;
+
+    // 🔹 mostra resultado e mensagem
+    setResultado({ imc, classificacao });
+    setSucesso(false);
+
+    try {
+      setLoading(true);
+
+      await DadosService.criar({
+        peso,
+        altura,
+        imc,
+        classificacao,
+        objetivo: "objetivo_atual",
+        usuario: { id: usuario.id },
+      });
+
+      setSucesso(true);
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <div className="space-y-12">
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+    <div className="space-y-6">
+      <CalculadoraIMC onCalcular={handleCalcular} />
 
+      {resultado && (
+        <>
+          {/* RESULTADO */}
+          <div className="bg-black/60 border border-white/10 rounded-2xl p-6 max-w-xl">
+            <p className="text-lg">
+              <span className="text-white/60">IMC:</span>{" "}
+              <strong>{resultado.imc}</strong>
+            </p>
 
-     {/* COLUNA ESQUERDA */}
-<div className="space-y-8">
-  <CalculadoraIMC
-    onCalcular={(valor, classe) => {
-      setImc(valor);
-      setClassificacao(classe);
-    }}
-  />
+            <p className="text-white/60 mt-1">
+              Classificação:{" "}
+              <span className="text-orange-400">
+                {resultado.classificacao}
+              </span>
+            </p>
 
-  {imc && (
-    <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 max-w-xl">
-      <h3 className="text-xl font-semibold mb-2">
-        Seu resultado
-      </h3>
+            {loading && (
+              <p className="text-sm text-white/40 mt-2">
+                Salvando dados...
+              </p>
+            )}
 
-      <p className="text-lg">
-        IMC: <span className="font-bold">{imc}</span>
-      </p>
-
-      <p className="text-white/70">
-        Classificação: {classificacao}
-      </p>
-    </div>
-  )}
-</div>
-{/* COLUNA DIREITA */}
-{imc && (
- <MensagemMotivacional imc={imc} />
-)}
-</div>
-
-      {/* PLANO RECOMENDADO */}
-      {imc && (
-        <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-xl font-semibold mb-4">
-            Plano recomendado
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <Card titulo="Treinos / semana" valor={plano.treinosSemana} />
-            <Card titulo="Foco" valor={plano.foco.join(", ")} />
-            <Card titulo="Resultado esperado" valor={plano.resultado} />
+            {sucesso && (
+              <p className="text-sm text-emerald-400 mt-2">
+                Dados salvos com sucesso ✅
+              </p>
+            )}
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
-function Card({ titulo, valor }: { titulo: string; valor: any }) {
-  return (
-    <div className="bg-black/60 border border-white/10 rounded-xl p-4">
-      <p className="text-white/60 text-sm">{titulo}</p>
-      <p className="text-lg font-semibold">{valor}</p>
+          {/* MENSAGEM MOTIVACIONAL */}
+          <MensagemMotivacional imc={resultado.imc} />
+        </>
+      )}
     </div>
   );
 }
