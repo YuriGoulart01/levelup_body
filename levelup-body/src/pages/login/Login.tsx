@@ -53,7 +53,6 @@ export default function Login() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden">
-      {/* 🔥 Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${bgLogin})` }}
