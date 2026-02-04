@@ -9,6 +9,7 @@ import { api } from "../service/api";
 
 type AuthContextData = {
   token: string | null;
+  isAuthenticated: boolean;
   signIn: (usuario: string, senha: string) => Promise<void>;
   signInWithGoogle: (idToken: string) => Promise<void>;
   signOut: () => void;
@@ -22,6 +23,7 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
+  const isAuthenticated = !!token;
 
   // 🔁 Carrega token ao iniciar a aplicação
   useEffect(() => {
@@ -64,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ token, signIn, signInWithGoogle, signOut }}
+      value={{ token, isAuthenticated, signIn, signInWithGoogle, signOut }}
     >
       {children}
     </AuthContext.Provider>

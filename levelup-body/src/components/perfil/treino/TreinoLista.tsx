@@ -1,10 +1,10 @@
-import { treinoMock } from "../../../mocks/treino.mock";
+import { treinosMock, type Treino } from "../../../mocks/treino.mock";
 import { Timer } from "@phosphor-icons/react";
 
 export default function TreinoLista() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {treinoMock.map((treino) => (
+      {treinosMock.map((treino: Treino) => (
         <div
           key={treino.id}
           className="bg-zinc-900/70 rounded-xl p-5 border border-white/10 hover:border-orange-400 transition"

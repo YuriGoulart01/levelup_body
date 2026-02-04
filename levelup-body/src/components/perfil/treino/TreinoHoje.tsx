@@ -1,8 +1,8 @@
 import { Fire, Timer } from "@phosphor-icons/react";
-import { treinoHojeMock } from "../../../mocks/treino.mock";
+import { treinosMock } from "../../../mocks/treino.mock";
 
 export default function TreinoHoje() {
-  const treino = treinoHojeMock;
+  const treino = treinosMock[0];
 
   return (
     <div className="bg-zinc-900/80 rounded-2xl p-6 border border-white/10">
