@@ -1,8 +1,6 @@
-import capivara from "../assets/capivara-planodefundo.png"
 import { useEffect, useState } from "react";
-import { api } from "../service/api";
 import { useNavigate } from "react-router-dom";
-
+import { api } from "../../service/api";
 
 export function Cadastro() {
   const navigate = useNavigate();
@@ -12,7 +10,6 @@ export function Cadastro() {
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [erro, setErro] = useState("");
-
 
   useEffect(() => {
     if (!window.google) return;
@@ -46,44 +43,42 @@ export function Cadastro() {
       });
   }
 
-
- 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (senha !== confirmarSenha) {
-    setErro("As senhas não conferem");
-    return;
-  }
+    if (senha !== confirmarSenha) {
+      setErro("As senhas não conferem");
+      return;
+    }
 
-  setErro("");
+    setErro("");
 
-  try {
-    await api.post("/usuarios/cadastrar", {
-      nome,
-      usuario: email,
-      senha,
-    });
+    try {
+      await api.post("/usuarios/cadastrar", {
+        nome,
+        usuario: email,
+        senha,
+      });
 
-    navigate("/login");
-  } catch (error: any) {
-    setErro(
-      error.response?.data?.message || "Erro ao realizar cadastro"
-    );
-  }
-};
+      navigate("/login");
+    } catch (error: any) {
+      setErro(
+        error.response?.data?.message || "Erro ao realizar cadastro"
+      );
+    }
+  };
 
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: `url(${capivara})` }}
+      style={{
+        backgroundImage: `url(${import.meta.env.BASE_URL}capivara-planodefundo5.png)`,
+      }}
     >
-     
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative z-10 min-h-screen flex items-center">
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 px-6">
-    
           <div className="bg-black/40 backdrop-blur-md p-8 rounded-xl text-white">
             <h1 className="text-5xl mb-2 font-medium">Crie sua Conta</h1>
             <p className="text-gray-300 text-2xl mb-6 font-medium">
@@ -138,7 +133,6 @@ export function Cadastro() {
                 CADASTRAR
               </button>
 
-           
               <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-gray-600" />
                 <span className="text-sm text-gray-400">ou</span>
@@ -149,7 +143,6 @@ export function Cadastro() {
                 <div id="googleButton" />
               </div>
 
-       
               <p className="text-sm text-gray-300 text-center mt-6">
                 Já tem uma conta?{" "}
                 <button

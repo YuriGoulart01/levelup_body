@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import Login from "./pages/login/Login";
 import "./App.css";
 import { Cadastro } from "./pages/cadastro/Cadastro";

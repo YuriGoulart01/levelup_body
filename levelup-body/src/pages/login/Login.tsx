@@ -6,10 +6,6 @@ import { useAuth } from "../../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
 
-
-import bgLogin from "../../assets/bg-login.png";
-import logomarca from "../../assets/logomarca.png";
-
 export default function Login() {
   const { signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
@@ -17,7 +13,6 @@ export default function Login() {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,7 +50,7 @@ export default function Login() {
     <div className="min-h-screen w-full relative overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgLogin})` }}
+        style={{ backgroundImage: "url('/bg-login.png')" }}
       />
 
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
@@ -71,18 +66,15 @@ export default function Login() {
             border border-orange-500/30
           "
         >
-  
           <div className="flex justify-center mb-6">
             <img
-              src={logomarca}
+              src="/logomarca.png"
               alt="LevelUpBody"
               className="w-36 drop-shadow-2xl"
             />
           </div>
 
-          <h1 className="text-4xl font-extrabold text-center text-orange-500 mb-2">
-           
-          </h1>
+          <h1 className="text-4xl font-extrabold text-center text-orange-500 mb-2"></h1>
 
           <h2 className="text-center text-gray-300 mb-8 text-base">
             Evolua seu corpo. Suba de nível.
@@ -171,6 +163,7 @@ export default function Login() {
               }}
             />
           </div>
+
           <div className="flex justify-between mt-8 text-sm text-gray-400">
             <a href="/cadastro" className="hover:text-orange-400">
               Criar conta
