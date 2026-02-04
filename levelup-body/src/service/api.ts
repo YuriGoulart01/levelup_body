@@ -1,6 +1,16 @@
-
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://levelupbody-api-1-o76k.onrender.com", 
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
+// Interceptor opcional (recomendado)
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
 });

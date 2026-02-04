@@ -6,6 +6,10 @@ import { AuthProvider } from "./context/AuthContext";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+console.log(
+  "GOOGLE CLIENT ID EM RUNTIME:",
+  import.meta.env.VITE_GOOGLE_CLIENT_ID
+);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

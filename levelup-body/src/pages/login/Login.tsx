@@ -1,10 +1,11 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../App.css";
-import { useAuth } from "../../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
+
+import "../../App.css";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
   const { signIn, signInWithGoogle } = useAuth();
@@ -14,6 +15,7 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // 🔐 Login tradicional
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -21,13 +23,15 @@ export default function Login() {
     try {
       await signIn(usuario, senha);
       navigate("/");
-    } catch {
+    } catch (error) {
+      console.error(error);
       alert("Usuário ou senha inválidos");
     } finally {
       setLoading(false);
     }
   };
 
+  // 🔐 Login com Google
   const handleGoogleSuccess = async (
     credentialResponse: CredentialResponse
   ) => {
@@ -48,6 +52,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden">
+      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/bg-login.png')" }}
@@ -66,6 +71,7 @@ export default function Login() {
             border border-orange-500/30
           "
         >
+          {/* Logo */}
           <div className="flex justify-center mb-6">
             <img
               src="/logomarca.png"
@@ -74,12 +80,11 @@ export default function Login() {
             />
           </div>
 
-          <h1 className="text-4xl font-extrabold text-center text-orange-500 mb-2"></h1>
-
           <h2 className="text-center text-gray-300 mb-8 text-base">
             Evolua seu corpo. Suba de nível.
           </h2>
 
+          {/* Formulário */}
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="block text-[0.95rem] text-gray-300 mb-2">
@@ -149,21 +154,25 @@ export default function Login() {
             </button>
           </form>
 
+          {/* Divider */}
           <div className="flex items-center gap-4 my-8">
             <div className="flex-1 h-px bg-zinc-700" />
             <span className="text-zinc-400 text-sm">ou</span>
             <div className="flex-1 h-px bg-zinc-700" />
           </div>
 
+          {/* Google Login */}
           <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={() => {
                 console.error("Erro ao autenticar com Google");
+                alert("Erro ao autenticar com Google");
               }}
             />
           </div>
 
+          {/* Links */}
           <div className="flex justify-between mt-8 text-sm text-gray-400">
             <a href="/cadastro" className="hover:text-orange-400">
               Criar conta

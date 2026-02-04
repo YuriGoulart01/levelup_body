@@ -1,48 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import type { CredentialResponse } from "@react-oauth/google";
+
 import { api } from "../../service/api";
+import { useAuth } from "../../context/AuthContext";
 
 export function Cadastro() {
   const navigate = useNavigate();
+  const { signInWithGoogle } = useAuth();
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!window.google) return;
-
-    window.google.accounts.id.initialize({
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-      callback: handleGoogleResponse,
-    });
-
-    window.google.accounts.id.renderButton(
-      document.getElementById("googleButton"),
-      {
-        theme: "outline",
-        size: "large",
-        width: 320,
-      }
-    );
-  }, []);
-
-  function handleGoogleResponse(response: any) {
-    api
-      .post("/auth/google", {
-        idToken: response.credential,
-      })
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        navigate("/home");
-      })
-      .catch(() => {
-        setErro("Erro ao autenticar com Google");
-      });
-  }
-
+  // 🔐 Cadastro tradicional
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -52,6 +27,7 @@ export function Cadastro() {
     }
 
     setErro("");
+    setLoading(true);
 
     try {
       await api.post("/usuarios/cadastrar", {
@@ -65,6 +41,27 @@ export function Cadastro() {
       setErro(
         error.response?.data?.message || "Erro ao realizar cadastro"
       );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔐 Cadastro / Login com Google
+  const handleGoogleSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    try {
+      const idToken = credentialResponse.credential;
+
+      if (!idToken) {
+        throw new Error("Token do Google não recebido");
+      }
+
+      await signInWithGoogle(idToken);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      setErro("Erro ao autenticar com Google");
     }
   };
 
@@ -128,9 +125,10 @@ export function Cadastro() {
 
               <button
                 type="submit"
-                className="w-full py-3 bg-orange-600 hover:bg-orange-700 rounded font-semibold"
+                disabled={loading}
+                className="w-full py-3 bg-orange-600 hover:bg-orange-700 rounded font-semibold disabled:opacity-60"
               >
-                CADASTRAR
+                {loading ? "Cadastrando..." : "Cadastrar"}
               </button>
 
               <div className="flex items-center gap-3 my-6">
@@ -139,8 +137,14 @@ export function Cadastro() {
                 <div className="flex-1 h-px bg-gray-600" />
               </div>
 
+              {/* Google Login */}
               <div className="flex justify-center">
-                <div id="googleButton" />
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() =>
+                    setErro("Erro ao autenticar com Google")
+                  }
+                />
               </div>
 
               <p className="text-sm text-gray-300 text-center mt-6">
