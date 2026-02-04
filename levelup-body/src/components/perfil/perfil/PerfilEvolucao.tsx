@@ -1,10 +1,22 @@
 import PerfilGrafico from "./PerfilGrafico";
 import { useDados } from "../../../hooks/useDados";
-
-const usuarioId = 8;
+import { useAuth } from "../../../context/AuthContext";
 
 export default function PerfilEvolucao() {
-  const { dados, loading } = useDados(usuarioId);
+  const { usuario } = useAuth();
+
+  // 🔒 segurança: não tenta buscar sem usuário
+  if (!usuario) {
+    return (
+      <section className="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-white/10">
+        <p className="text-white/60">
+          Faça login para visualizar sua evolução.
+        </p>
+      </section>
+    );
+  }
+
+  const { dados, loading } = useDados(usuario.id);
 
   if (loading) {
     return (
@@ -17,7 +29,9 @@ export default function PerfilEvolucao() {
   if (dados.length === 0) {
     return (
       <section className="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-        <p className="text-white/60">Nenhum histórico disponível ainda.</p>
+        <p className="text-white/60">
+          Nenhum histórico disponível ainda.
+        </p>
       </section>
     );
   }
@@ -38,12 +52,20 @@ export default function PerfilEvolucao() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <p className="text-sm text-white/60 mb-2">Peso (kg)</p>
-          <PerfilGrafico data={dadosGrafico} dataKey="peso" color="#fb923c" />
+          <PerfilGrafico
+            data={dadosGrafico}
+            dataKey="peso"
+            color="#fb923c"
+          />
         </div>
 
         <div>
           <p className="text-sm text-white/60 mb-2">IMC</p>
-          <PerfilGrafico data={dadosGrafico} dataKey="imc" color="#facc15" />
+          <PerfilGrafico
+            data={dadosGrafico}
+            dataKey="imc"
+            color="#facc15"
+          />
         </div>
       </div>
     </section>
