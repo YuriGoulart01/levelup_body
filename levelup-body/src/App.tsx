@@ -6,10 +6,10 @@ import { Cadastro } from "./pages/cadastro/Cadastro";
 export default function App() {
   return (
     <Routes>
-       <Route path="/" element={<Cadastro />} />
+      <Route path="/" element={<Cadastro />} />
       <Route path="/login" element={<Login />} />
 
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      
     </Routes>
 
   );
