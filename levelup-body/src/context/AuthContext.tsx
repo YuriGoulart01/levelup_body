@@ -9,6 +9,7 @@ import { api } from "../service/api";
 
 type AuthContextData = {
   token: string | null;
+  isAuthenticated: boolean;
   signIn: (usuario: string, senha: string) => Promise<void>;
   signInWithGoogle: (idToken: string) => Promise<void>;
   signOut: () => void;
@@ -27,9 +28,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToken(storedToken);
     }
   }, []);
+
+  // ✅ Estado derivado (padrão profissional)
+  const isAuthenticated = !!token;
 
   // 🔐 Login tradicional
   async function signIn(usuario: string, senha: string) {
@@ -64,13 +69,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ token, signIn, signInWithGoogle, signOut }}
+      value={{
+        token,
+        isAuthenticated,
+        signIn,
+        signInWithGoogle,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext);
 }
