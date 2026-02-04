@@ -6,9 +6,8 @@ import { useAuth } from "../../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
 
-// 🖼️ Background
+
 import bgLogin from "../../assets/bg-login.png";
-// 🏷️ Logomarca
 import logomarca from "../../assets/logomarca.png";
 
 export default function Login() {
@@ -19,7 +18,7 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔐 Login tradicional
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -34,7 +33,6 @@ export default function Login() {
     }
   };
 
-  // 🔐 Login com Google
   const handleGoogleSuccess = async (
     credentialResponse: CredentialResponse
   ) => {
@@ -61,10 +59,6 @@ export default function Login() {
         style={{ backgroundImage: `url(${bgLogin})` }}
       />
 
-      {/* 🌑 Overlay */}
-      <div className="absolute inset-0 bg-black/60" />
-
-      {/* 📦 Conteúdo */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
         <div
           className="
@@ -78,7 +72,7 @@ export default function Login() {
             border border-orange-500/30
           "
         >
-          {/* 🏷️ Logo */}
+  
           <div className="flex justify-center mb-6">
             <img
               src={logomarca}
@@ -87,7 +81,6 @@ export default function Login() {
             />
           </div>
 
-          {/* 🏷️ Título */}
           <h1 className="text-4xl font-extrabold text-center text-orange-500 mb-2">
            
           </h1>
@@ -96,7 +89,6 @@ export default function Login() {
             Evolua seu corpo. Suba de nível.
           </h2>
 
-          {/* ✉️ Login tradicional */}
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="block text-[0.95rem] text-gray-300 mb-2">
@@ -166,14 +158,12 @@ export default function Login() {
             </button>
           </form>
 
-          {/* ➖ Divider */}
           <div className="flex items-center gap-4 my-8">
             <div className="flex-1 h-px bg-zinc-700" />
             <span className="text-zinc-400 text-sm">ou</span>
             <div className="flex-1 h-px bg-zinc-700" />
           </div>
 
-          {/* 🔵 Login Google */}
           <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
@@ -182,8 +172,6 @@ export default function Login() {
               }}
             />
           </div>
-
-          {/* 🔗 Links */}
           <div className="flex justify-between mt-8 text-sm text-gray-400">
             <a href="/cadastro" className="hover:text-orange-400">
               Criar conta

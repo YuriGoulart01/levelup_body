@@ -14,7 +14,6 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
 
-  // 🔄 Carrega token ao iniciar a aplicação
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -22,7 +21,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // 🔐 Login tradicional
   async function signIn(usuario: string, senha: string) {
     try {
       const response = await api.post("/auth/logar", {
@@ -40,7 +38,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  // 🔐 Login com Google
   async function signInWithGoogle(idToken: string) {
     try {
       const response = await api.post("/auth/google", {
@@ -57,7 +54,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  // 🚪 Logout
   function signOut() {
     localStorage.removeItem("token");
     setToken(null);
