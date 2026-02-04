@@ -1,11 +1,14 @@
-
 import { useState } from "react";
 import ObjetivoConteudo from "../../components/perfil/objetivo/ObjetivoConteudo";
 import ObjetivoResumo from "../../components/perfil/objetivo/ObjetivoResumo";
 
 export default function Objetivos() {
-  const [objetivo, setObjetivo] = useState<"gordura" | "massa" | "resistencia">("gordura");
-  const [periodo, setPeriodo] = useState<"mensal" | "trimestral" | "semestral">("mensal");
+  const [objetivo, setObjetivo] = useState<"gordura" | "massa" | "resistencia">(
+    "gordura",
+  );
+  const [periodo, setPeriodo] = useState<"mensal" | "trimestral" | "semestral">(
+    "mensal",
+  );
 
   return (
     <>

@@ -9,7 +9,6 @@ function App() {
     <BrowserRouter>
       <Perfil />
 
-      {/* Toast global do app */}
       <ToastContainer
         position="top-right"
         autoClose={3000}

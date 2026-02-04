@@ -10,7 +10,6 @@ export type Treino = {
 };
 
 export const treinosMock: Treino[] = [
-  // ===== FORÇA =====
   {
     id: 1,
     nome: "Força em casa (braços)",
@@ -44,7 +43,6 @@ export const treinosMock: Treino[] = [
     youtubeId: "vc1E5CfRfos",
   },
 
-  // ===== CARDIO =====
   {
     id: 5,
     nome: "Cardio leve para iniciantes",
@@ -78,7 +76,6 @@ export const treinosMock: Treino[] = [
     youtubeId: "d3LPrhI0v-w",
   },
 
-  // ===== ALONGAMENTO =====
   {
     id: 9,
     nome: "Alongamento diário",

@@ -1,10 +1,4 @@
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  Tooltip,
-} from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from "recharts";
 
 import { treinoSemanalMock } from "../../../mocks/perfil.mock";
 import type { Dados } from "../../../service/dados.api";
@@ -14,17 +8,11 @@ interface Props {
 }
 
 export default function PerfilGraficoSemanal({ dados }: Props) {
-  /**
-   * ⚠️ Por enquanto usamos o mock.
-   * No futuro, basta transformar `dados` no formato do gráfico.
-   */
   const data = treinoSemanalMock;
 
   return (
     <div className="bg-zinc-900/60 rounded-2xl p-4 mb-6">
-      <p className="text-sm text-white/70 mb-3">
-        Atividade na semana
-      </p>
+      <p className="text-sm text-white/70 mb-3">Atividade na semana</p>
 
       <div style={{ width: "100%", height: 120 }}>
         <ResponsiveContainer width="100%" height="100%">
@@ -38,11 +26,7 @@ export default function PerfilGraficoSemanal({ dados }: Props) {
 
             <Tooltip cursor={{ fill: "transparent" }} />
 
-            <Bar
-              dataKey="minutos"
-              radius={[6, 6, 0, 0]}
-              fill="#fb923c"
-            />
+            <Bar dataKey="minutos" radius={[6, 6, 0, 0]} fill="#fb923c" />
           </BarChart>
         </ResponsiveContainer>
       </div>

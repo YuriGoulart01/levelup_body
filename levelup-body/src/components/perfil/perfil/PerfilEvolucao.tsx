@@ -1,7 +1,6 @@
 import PerfilGrafico from "./PerfilGrafico";
 import { useDados } from "../../../hooks/useDados";
 
-// ⚠️ temporário até integrar 100% com AuthContext
 const usuarioId = 8;
 
 export default function PerfilEvolucao() {
@@ -18,19 +17,16 @@ export default function PerfilEvolucao() {
   if (dados.length === 0) {
     return (
       <section className="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-white/10">
-        <p className="text-white/60">
-          Nenhum histórico disponível ainda.
-        </p>
+        <p className="text-white/60">Nenhum histórico disponível ainda.</p>
       </section>
     );
   }
 
-  // 🔹 transforma dados do backend para o formato do gráfico
   const dadosGrafico = dados
-    .slice() // cópia segura
-    .reverse() // ordem cronológica
+    .slice()
+    .reverse()
     .map((dado, index) => ({
-      data: `#${index + 1}`, // depois pode virar data real
+      data: `#${index + 1}`,
       peso: dado.peso,
       imc: dado.imc,
     }));
@@ -40,24 +36,14 @@ export default function PerfilEvolucao() {
       <h2 className="text-xl font-bold mb-6">Histórico e Evolução</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* GRÁFICO PESO */}
         <div>
           <p className="text-sm text-white/60 mb-2">Peso (kg)</p>
-          <PerfilGrafico
-            data={dadosGrafico}
-            dataKey="peso"
-            color="#fb923c"
-          />
+          <PerfilGrafico data={dadosGrafico} dataKey="peso" color="#fb923c" />
         </div>
 
-        {/* GRÁFICO IMC */}
         <div>
           <p className="text-sm text-white/60 mb-2">IMC</p>
-          <PerfilGrafico
-            data={dadosGrafico}
-            dataKey="imc"
-            color="#facc15"
-          />
+          <PerfilGrafico data={dadosGrafico} dataKey="imc" color="#facc15" />
         </div>
       </div>
     </section>

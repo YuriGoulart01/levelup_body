@@ -3,9 +3,7 @@ import { useDados } from "../../../hooks/useDados";
 import { DadosService } from "../../../service/dados.api";
 import { ToastErro, ToastSucesso } from "../../../utils/Toastalert";
 
-
 export default function DadosCorporaisForm() {
-  // ⚠️ depois vem do AuthContext
   const usuarioId = 8;
 
   const { ultimoDado, recarregar } = useDados(usuarioId);
@@ -15,11 +13,10 @@ export default function DadosCorporaisForm() {
   const [objetivo, setObjetivo] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // sincroniza quando vier do backend (converte m → cm)
   useEffect(() => {
     if (ultimoDado) {
       setPeso(String(ultimoDado.peso));
-      setAlturaCm(String(ultimoDado.altura * 100)); // 🔥 m → cm
+      setAlturaCm(String(ultimoDado.altura * 100));
       setObjetivo(ultimoDado.objetivo ?? "");
     }
   }, [ultimoDado]);
@@ -29,10 +26,9 @@ export default function DadosCorporaisForm() {
     setLoading(true);
 
     try {
-      const alturaEmMetros = Number(alturaCm) / 100; // 🔥 cm → m
+      const alturaEmMetros = Number(alturaCm) / 100;
 
       if (ultimoDado) {
-        // PUT
         await DadosService.atualizar({
           id: ultimoDado.id,
           peso: Number(peso),
@@ -40,7 +36,6 @@ export default function DadosCorporaisForm() {
           objetivo,
         });
       } else {
-        // POST
         await DadosService.criar({
           peso: Number(peso),
           altura: alturaEmMetros,
@@ -51,11 +46,9 @@ export default function DadosCorporaisForm() {
 
       await recarregar();
       ToastSucesso("Dados atualizados com sucesso!");
-
     } catch (error) {
       console.error(error);
       ToastErro("Erro ao salvar os dados");
-
     } finally {
       setLoading(false);
     }

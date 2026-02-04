@@ -3,7 +3,7 @@ export const perfilResumoMock = {
   nivel: 2,
   status: "Em evolução",
   diasAtivos: 12,
-  foto: "/avatar/avatar-user.png", // <-- imagem real
+  foto: "/avatar/avatar-user.png", 
 };
 
 export const historicoEvolucaoMock = [

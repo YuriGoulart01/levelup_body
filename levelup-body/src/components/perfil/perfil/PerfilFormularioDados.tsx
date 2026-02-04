@@ -25,7 +25,7 @@ export default function PerfilFormularioDados({ usuarioId, onSucesso }: Props) {
         usuario: { id: usuarioId },
       });
 
-      onSucesso(); // avisa o Perfil que deu certo
+      onSucesso();
       setPeso("");
       setAltura("");
       setObjetivo("");

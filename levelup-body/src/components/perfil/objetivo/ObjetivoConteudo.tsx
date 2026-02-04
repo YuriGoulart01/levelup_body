@@ -1,9 +1,7 @@
-
 import { useState } from "react";
 import { objetivoMock } from "../../../mocks/objetivo.mock";
 import CalculadoraIMC from "./CalculadoraIMC";
 import MensagemMotivacional from "./MensagemMotivacional";
-
 
 type Props = {
   objetivo: "gordura" | "massa" | "resistencia";
@@ -18,46 +16,34 @@ export default function ObjetivoConteudo({ objetivo, periodo }: Props) {
 
   return (
     <div className="space-y-12">
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="space-y-8">
+          <CalculadoraIMC
+            onCalcular={(valor, classe) => {
+              setImc(valor);
+              setClassificacao(classe);
+            }}
+          />
 
+          {imc && (
+            <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 max-w-xl">
+              <h3 className="text-xl font-semibold mb-2">Seu resultado</h3>
 
-     {/* COLUNA ESQUERDA */}
-<div className="space-y-8">
-  <CalculadoraIMC
-    onCalcular={(valor, classe) => {
-      setImc(valor);
-      setClassificacao(classe);
-    }}
-  />
+              <p className="text-lg">
+                IMC: <span className="font-bold">{imc}</span>
+              </p>
 
-  {imc && (
-    <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 max-w-xl">
-      <h3 className="text-xl font-semibold mb-2">
-        Seu resultado
-      </h3>
+              <p className="text-white/70">Classificação: {classificacao}</p>
+            </div>
+          )}
+        </div>
 
-      <p className="text-lg">
-        IMC: <span className="font-bold">{imc}</span>
-      </p>
+        {imc && <MensagemMotivacional imc={imc} />}
+      </div>
 
-      <p className="text-white/70">
-        Classificação: {classificacao}
-      </p>
-    </div>
-  )}
-</div>
-{/* COLUNA DIREITA */}
-{imc && (
- <MensagemMotivacional imc={imc} />
-)}
-</div>
-
-      {/* PLANO RECOMENDADO */}
       {imc && (
         <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6">
-          <h3 className="text-xl font-semibold mb-4">
-            Plano recomendado
-          </h3>
+          <h3 className="text-xl font-semibold mb-4">Plano recomendado</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <Card titulo="Treinos / semana" valor={plano.treinosSemana} />

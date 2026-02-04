@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 type Props = {
@@ -29,9 +28,7 @@ export default function CalculadoraIMC({ onCalcular }: Props) {
 
   return (
     <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 max-w-xl">
-      <h3 className="text-xl font-semibold mb-4">
-        Informe seus dados
-      </h3>
+      <h3 className="text-xl font-semibold mb-4">Informe seus dados</h3>
 
       <div className="space-y-4">
         <input

@@ -22,7 +22,6 @@ export default function PerfilGraficoImc({ dados }: Props) {
     );
   }
 
-  // inverter para mostrar do mais antigo → mais recente
   const dadosOrdenados = [...dados].reverse();
 
   const dadosGrafico = dadosOrdenados.map((item, index) => ({
@@ -32,9 +31,7 @@ export default function PerfilGraficoImc({ dados }: Props) {
 
   return (
     <div className="bg-zinc-900/60 rounded-2xl p-4">
-      <p className="text-sm text-white/70 mb-3">
-        Evolução do IMC
-      </p>
+      <p className="text-sm text-white/70 mb-3">Evolução do IMC</p>
 
       <div style={{ width: "100%", height: 180 }}>
         <ResponsiveContainer width="100%" height="100%">
@@ -46,11 +43,7 @@ export default function PerfilGraficoImc({ dados }: Props) {
               axisLine={false}
             />
 
-            <YAxis
-              stroke="#ffffff60"
-              tickLine={false}
-              axisLine={false}
-            />
+            <YAxis stroke="#ffffff60" tickLine={false} axisLine={false} />
 
             <Tooltip />
 

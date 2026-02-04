@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   UserCircleIcon,
@@ -23,20 +22,18 @@ type AbaAtiva = "perfil" | "treinos" | "objetivos" | "configuracoes";
 export default function Perfil() {
   const [abaAtiva, setAbaAtiva] = useState<AbaAtiva>("perfil");
 
-  // Estados usados SOMENTE em OBJETIVOS
-  const [objetivo, setObjetivo] = useState<
-    "gordura" | "massa" | "resistencia"
-  >("gordura");
+  const [objetivo, setObjetivo] = useState<"gordura" | "massa" | "resistencia">(
+    "gordura",
+  );
 
-  const [periodo, setPeriodo] = useState<
-    "mensal" | "trimestral" | "semestral"
-  >("mensal");
+  const [periodo, setPeriodo] = useState<"mensal" | "trimestral" | "semestral">(
+    "mensal",
+  );
 
   const background = "/backgrounds/semana3.png";
 
   return (
     <main className="w-full bg-black text-white">
-      {/* ===== HERO ===== */}
       <section className="relative w-full">
         <img
           src={background}
@@ -48,8 +45,6 @@ export default function Perfil() {
 
         <div className="absolute top-0 left-0 w-full">
           <div className="max-w-7xl mx-auto px-6 pt-8 space-y-10">
-
-            {/* ===== TABS ===== */}
             <div className="flex gap-10">
               <button
                 onClick={() => setAbaAtiva("perfil")}
@@ -100,7 +95,6 @@ export default function Perfil() {
               </button>
             </div>
 
-            {/* ===== HERO CONTENT ===== */}
             <div className="mt-24">
               {abaAtiva === "perfil" && <PerfilResumo />}
 
@@ -115,17 +109,13 @@ export default function Perfil() {
                 />
               )}
 
-              {/* ===== ATUALIZAÇÕES (PADRÃO OBJETIVOS) ===== */}
               {abaAtiva === "configuracoes" && (
                 <div className="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-white/10 max-w-xl w-full space-y-3">
-
                   <span className="inline-block text-sm bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full">
                     Atualização
                   </span>
 
-                  <h2 className="text-2xl font-bold">
-                    Atualize seus dados
-                  </h2>
+                  <h2 className="text-2xl font-bold">Atualize seus dados</h2>
 
                   <Configuracoes />
                 </div>
@@ -135,7 +125,6 @@ export default function Perfil() {
         </div>
       </section>
 
-      {/* ===== CONTEÚDO ABAIXO DO HERO ===== */}
       {abaAtiva === "perfil" && (
         <section className="bg-zinc-950 py-16">
           <div className="max-w-7xl mx-auto px-6 space-y-10">

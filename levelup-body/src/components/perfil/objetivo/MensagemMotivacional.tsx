@@ -1,4 +1,3 @@
-
 import { Heart, Fire, ShieldCheck, Trophy } from "@phosphor-icons/react";
 
 type Props = {
@@ -43,23 +42,16 @@ Decidir mudar já é uma grande vitória. Não existe transformação instantân
   }
 
   return (
-   <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 max-w-xl">
+    <div className="bg-zinc-900/80 border border-white/10 rounded-2xl p-6 max-w-xl">
+      <div className="flex items-center gap-4 mb-4">
+        <Icon size={48} className={cor} />
 
-  {/* HEADER (Ícone + Título) */}
-  <div className="flex items-center gap-4 mb-4">
-    <Icon size={48} className={cor} />
+        <h3 className={`text-xl font-semibold ${cor}`}>{titulo}</h3>
+      </div>
 
-    <h3 className={`text-xl font-semibold ${cor}`}>
-      {titulo}
-    </h3>
-  </div>
-
-  {/* TEXTO */}
-  <p className="text-white/70 whitespace-pre-line leading-relaxed text-justify">
-    {mensagem.trim()}
-  </p>
-
-</div>     
-    
+      <p className="text-white/70 whitespace-pre-line leading-relaxed text-justify">
+        {mensagem.trim()}
+      </p>
+    </div>
   );
 }

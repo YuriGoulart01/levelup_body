@@ -32,11 +32,7 @@ export default function PerfilGrafico({ data, dataKey, color }: Props) {
               axisLine={false}
             />
 
-            <YAxis
-              stroke="#ffffff60"
-              tickLine={false}
-              axisLine={false}
-            />
+            <YAxis stroke="#ffffff60" tickLine={false} axisLine={false} />
 
             <Tooltip cursor={{ fill: "transparent" }} />
 

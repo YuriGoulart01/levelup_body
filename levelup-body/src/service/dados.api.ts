@@ -1,11 +1,5 @@
 import { api } from "./api";
 
-// =====================
-// TYPES
-// =====================
-
-// 🔹 O que o FRONTEND ENVIA (POST)
-// ❌ NÃO envia imc nem classificacao
 export interface CriarDadosPayload {
   peso: number;
   altura: number;
@@ -15,7 +9,6 @@ export interface CriarDadosPayload {
   };
 }
 
-// 🔹 Atualização (PUT)
 export interface AtualizarDadosPayload {
   id: number;
   peso: number;
@@ -23,7 +16,6 @@ export interface AtualizarDadosPayload {
   objetivo: string;
 }
 
-// 🔹 O que o BACKEND RETORNA (GET)
 export interface Dados {
   id: number;
   peso: number;
@@ -32,10 +24,6 @@ export interface Dados {
   imc: number;
   classificacao: string;
 }
-
-// =====================
-// SERVICE
-// =====================
 
 export const DadosService = {
   criar(dados: CriarDadosPayload) {

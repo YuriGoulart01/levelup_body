@@ -8,7 +8,6 @@ export default function TreinoResumo() {
 
   return (
     <div className="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-white/10 max-w-xl w-full">
-
       <span className="inline-block mb-3 text-sm bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full">
         Treinos
       </span>
@@ -17,11 +16,7 @@ export default function TreinoResumo() {
         Qual exercício você quer fazer hoje?
       </h2>
 
-     
-      {/* BOTÕES */}
       <div className="flex flex-col gap-3">
-
-        {/* FORÇA */}
         <button
           onClick={() => scrollTo("treino-forca")}
           className="flex flex-col items-center justify-center
@@ -33,7 +28,6 @@ export default function TreinoResumo() {
           <span className="text-base font-semibold">Força</span>
         </button>
 
-        {/* CARDIO */}
         <button
           onClick={() => scrollTo("treino-cardio")}
           className="flex flex-col items-center justify-center
@@ -45,7 +39,6 @@ export default function TreinoResumo() {
           <span className="text-base font-semibold">Cardio</span>
         </button>
 
-        {/* ALONGAMENTO */}
         <button
           onClick={() => scrollTo("treino-alongamento")}
           className="flex flex-col items-center justify-center
@@ -56,7 +49,6 @@ export default function TreinoResumo() {
           <FlameIcon size={24} className="text-emerald-400 mb-1" />
           <span className="text-base font-semibold">Alongamento</span>
         </button>
-
       </div>
     </div>
   );
