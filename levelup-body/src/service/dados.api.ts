@@ -26,15 +26,18 @@ export interface Dados {
 }
 
 export const DadosService = {
-  criar(dados: CriarDadosPayload) {
-    return api.post<Dados>("/dados", dados);
+  async criar(dados: CriarDadosPayload) {
+    const response = await api.post<Dados>("/dados", dados);
+    return response.data;
   },
 
-  atualizar(dados: AtualizarDadosPayload) {
-    return api.put<Dados>("/dados", dados);
+  async atualizar(dados: AtualizarDadosPayload) {
+    const response = await api.put<Dados>("/dados", dados);
+    return response.data;
   },
 
-  buscarPorUsuario(usuarioId: number) {
-    return api.get<Dados[]>(`/dados/usuario/${usuarioId}`);
+  async buscarPorUsuario(usuarioId: number): Promise<Dados[]> {
+    const response = await api.get<Dados[]>(`/dados/usuario/${usuarioId}`);
+    return response.data;
   },
 };

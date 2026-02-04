@@ -2,15 +2,20 @@ import { useEffect, useState } from "react";
 import { DadosService } from "../service/dados.api";
 import type { Dados } from "../service/dados.api";
 
-export function useDados(usuarioId: number) {
+export function useDados(usuarioId: number | null) {
   const [dados, setDados] = useState<Dados[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [ultimoDado, setUltimoDado] = useState<Dados | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  async function carregarDados() {
+  async function carregar() {
+    if (!usuarioId) return;
+
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await DadosService.buscarPorUsuario(usuarioId);
-      setDados(response.data);
+      const lista = await DadosService.buscarPorUsuario(usuarioId);
+
+      setDados(lista);
+      setUltimoDado(lista.at(-1) ?? null);
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     } finally {
@@ -19,15 +24,13 @@ export function useDados(usuarioId: number) {
   }
 
   useEffect(() => {
-    carregarDados();
+    carregar();
   }, [usuarioId]);
-
-  const ultimoDado = dados.length > 0 ? dados[0] : null;
 
   return {
     dados,
     ultimoDado,
     loading,
-    recarregar: carregarDados,
+    recarregar: carregar,
   };
 }
