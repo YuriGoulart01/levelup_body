@@ -21,6 +21,7 @@ export type Usuario = {
 type AuthContextData = {
   usuario: Usuario | null;
   token: string | null;
+  isAuthenticated: boolean;
   signIn: (usuario: string, senha: string) => Promise<void>;
   signInWithGoogle: (idToken: string) => Promise<void>;
   signOut: () => void;
@@ -43,6 +44,7 @@ type AuthProviderProps = {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const isAuthenticated = !!token;
 
   /* 🔁 Carrega sessão salva ao iniciar */
   useEffect(() => {
@@ -110,6 +112,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
+      value={{ token, isAuthenticated, signIn, signInWithGoogle, signOut }}
       value={{
         usuario,
         token,
