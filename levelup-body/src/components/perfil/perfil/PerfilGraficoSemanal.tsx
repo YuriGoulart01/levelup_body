@@ -1,5 +1,4 @@
 import { ResponsiveContainer, BarChart, Bar, XAxis, Tooltip } from "recharts";
-
 import { treinoSemanalMock } from "../../../mocks/perfil.mock";
 import type { Dados } from "../../../service/dados.api";
 
@@ -7,8 +6,8 @@ interface Props {
   dados?: Dados[];
 }
 
-export default function PerfilGraficoSemanal({ dados }: Props) {
-  const data = treinoSemanalMock;
+export default function PerfilGraficoSemanal(_props: Props) {
+  const data = treinoSemanalMock; 
 
   return (
     <div className="bg-zinc-900/60 rounded-2xl p-4 mb-6">

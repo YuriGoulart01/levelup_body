@@ -17,6 +17,8 @@ import ObjetivoConteudo from "../../components/perfil/objetivo/ObjetivoConteudo"
 
 import Configuracoes from "./Configuracoes";
 
+
+
 type AbaAtiva = "perfil" | "treinos" | "objetivos" | "configuracoes";
 
 export default function Perfil() {

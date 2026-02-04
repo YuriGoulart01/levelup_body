@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import type { Usuario } from "../service/usuario.api";
 import { UsuarioService } from "../service/usuario.api";
 
-export function useUsuario(usuarioId: number) {
+export function useUsuario(usuarioId: number | null) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   async function carregarUsuario() {
+    if (!usuarioId) return;
+
     try {
       setLoading(true);
       const response = await UsuarioService.buscarPorId(usuarioId);
@@ -19,9 +21,7 @@ export function useUsuario(usuarioId: number) {
   }
 
   useEffect(() => {
-    if (usuarioId) {
-      carregarUsuario();
-    }
+    carregarUsuario();
   }, [usuarioId]);
 
   return { usuario, loading };

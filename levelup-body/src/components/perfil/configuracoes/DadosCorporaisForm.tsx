@@ -2,41 +2,46 @@ import { useEffect, useState } from "react";
 import { useDados } from "../../../hooks/useDados";
 import { DadosService } from "../../../service/dados.api";
 import { ToastErro, ToastSucesso } from "../../../utils/Toastalert";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function DadosCorporaisForm() {
   const { usuario } = useAuth();
 
-  // segurança: se não estiver logado, não renderiza
-  if (!usuario) return null;
-
-  const usuarioId = usuario.id;
+  const usuarioId = usuario?.id ?? null;
 
   const { ultimoDado, recarregar } = useDados(usuarioId);
 
   const [peso, setPeso] = useState("");
-  const [alturaCm, setAlturaCm] = useState(""); // altura em centímetros
+  const [alturaCm, setAlturaCm] = useState("");
   const [objetivo, setObjetivo] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // sincroniza dados vindos do backend
   useEffect(() => {
     if (ultimoDado) {
       setPeso(String(ultimoDado.peso));
-      setAlturaCm(String(ultimoDado.altura * 100)); // m → cm
+      setAlturaCm(String(ultimoDado.altura * 100));
       setObjetivo(ultimoDado.objetivo ?? "");
     }
   }, [ultimoDado]);
 
+  // 🔒 UI guard
+  if (!usuario) return null;
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // 🔒 TS + runtime guard (ESSENCIAL)
+    if (!usuario) {
+      ToastErro("Usuário não autenticado");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const alturaEmMetros = Number(alturaCm) / 100;
 
       if (ultimoDado) {
-        // PUT
         await DadosService.atualizar({
           id: ultimoDado.id,
           peso: Number(peso),
@@ -44,12 +49,11 @@ export default function DadosCorporaisForm() {
           objetivo,
         });
       } else {
-        // POST
         await DadosService.criar({
           peso: Number(peso),
           altura: alturaEmMetros,
           objetivo,
-          usuario: { id: usuarioId },
+          usuario: { id: usuario.id }, // ✅ SEM ERRO
         });
       }
 
