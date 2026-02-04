@@ -1,19 +1,29 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import { api } from "../service/api";
 
-type AuthContextType = {
+type AuthContextData = {
   token: string | null;
   signIn: (usuario: string, senha: string) => Promise<void>;
   signInWithGoogle: (idToken: string) => Promise<void>;
   signOut: () => void;
 };
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+type AuthProviderProps = {
+  children: ReactNode;
+};
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
 
+  // 🔁 Carrega token ao iniciar a aplicação
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -21,39 +31,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // 🔐 Login tradicional
   async function signIn(usuario: string, senha: string) {
-    try {
-      const response = await api.post("/auth/logar", {
-        usuario,
-        senha,
-      });
+    const response = await api.post("/auth/logar", {
+      usuario,
+      senha,
+    });
 
-      const { token } = response.data;
+    const { token } = response.data;
 
-      localStorage.setItem("token", token);
-      setToken(token);
-    } catch (error) {
-      console.error("Erro no login tradicional", error);
-      throw error;
-    }
+    localStorage.setItem("token", token);
+    setToken(token);
   }
 
+  // 🔐 Login com Google
   async function signInWithGoogle(idToken: string) {
-    try {
-      const response = await api.post("/auth/google", {
-        idToken,
-      });
+    const response = await api.post("/auth/google", {
+      idToken,
+    });
 
-      const { token } = response.data;
+    const { token } = response.data;
 
-      localStorage.setItem("token", token);
-      setToken(token);
-    } catch (error) {
-      console.error("Erro no login com Google", error);
-      throw error;
-    }
+    localStorage.setItem("token", token);
+    setToken(token);
   }
 
+  // 🚪 Logout
   function signOut() {
     localStorage.removeItem("token");
     setToken(null);
@@ -61,12 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{
-        token,
-        signIn,
-        signInWithGoogle,
-        signOut,
-      }}
+      value={{ token, signIn, signInWithGoogle, signOut }}
     >
       {children}
     </AuthContext.Provider>

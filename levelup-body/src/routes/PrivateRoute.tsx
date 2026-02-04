@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import type { JSX } from "react";
+import type { ReactNode } from "react";
 
 type PrivateRouteProps = {
-  children: JSX.Element;
+  children: ReactNode;
 };
 
 export function PrivateRoute({ children }: PrivateRouteProps) {
@@ -13,5 +13,5 @@ export function PrivateRoute({ children }: PrivateRouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 }
