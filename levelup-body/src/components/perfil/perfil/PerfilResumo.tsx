@@ -54,7 +54,7 @@ export default function PerfilResumo() {
           </span>
 
           <p className="text-white/60 text-sm mt-1">
-            Bem-vindo(a) de volta 👋
+            Bem-vindo(a) de volta, vamos treinar hoje?
           </p>
         </div>
       </div>

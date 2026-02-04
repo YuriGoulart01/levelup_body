@@ -1,12 +1,8 @@
+
 import { useState } from "react";
 
 type Props = {
-  onCalcular: (
-    imc: number,
-    classificacao: string,
-    peso: number,
-    altura: number
-  ) => void;
+  onCalcular: (imc: number, classificacao: string) => void;
 };
 
 export default function CalculadoraIMC({ onCalcular }: Props) {
@@ -28,7 +24,7 @@ export default function CalculadoraIMC({ onCalcular }: Props) {
     else if (imc < 30) classificacao = "Sobrepeso";
     else classificacao = "Obesidade";
 
-    onCalcular(Number(imc.toFixed(1)), classificacao, p, a);
+    onCalcular(Number(imc.toFixed(1)), classificacao);
   }
 
   return (

@@ -35,7 +35,7 @@ export default function Perfil() {
 
   return (
     <main className="w-full bg-black text-white">
-      {/* ===== HERO COM IMAGEM INTEIRA ===== */}
+      {/* ===== HERO ===== */}
       <section className="relative w-full">
         <img
           src={background}
@@ -47,6 +47,7 @@ export default function Perfil() {
 
         <div className="absolute top-0 left-0 w-full">
           <div className="max-w-7xl mx-auto px-6 pt-8 space-y-10">
+
             {/* ===== TABS ===== */}
             <div className="flex gap-10">
               <button
@@ -94,7 +95,7 @@ export default function Perfil() {
                 }`}
               >
                 <GearIcon size={20} />
-                Configurações
+                Atualizar
               </button>
             </div>
 
@@ -113,8 +114,18 @@ export default function Perfil() {
                 />
               )}
 
+              {/* ===== ATUALIZAÇÕES (PADRÃO OBJETIVOS) ===== */}
               {abaAtiva === "configuracoes" && (
-                <div className="max-w-2xl">
+                <div className="bg-black/60 backdrop-blur-md rounded-2xl p-6 border border-white/10 max-w-xl w-full space-y-3">
+
+                  <span className="inline-block text-sm bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full">
+                    Atualização
+                  </span>
+
+                  <h2 className="text-2xl font-bold">
+                    Atualize seus dados
+                  </h2>
+
                   <Configuracoes />
                 </div>
               )}
@@ -123,7 +134,7 @@ export default function Perfil() {
         </div>
       </section>
 
-      {/* ===== CONTEÚDO APÓS O HERO ===== */}
+      {/* ===== CONTEÚDO ABAIXO DO HERO ===== */}
       {abaAtiva === "perfil" && (
         <section className="bg-zinc-950 py-16">
           <div className="max-w-7xl mx-auto px-6 space-y-10">

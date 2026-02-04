@@ -1,3 +1,4 @@
+
 import { Heart, Fire, ShieldCheck, Trophy } from "@phosphor-icons/react";
 
 type Props = {

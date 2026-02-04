@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDados } from "../../../hooks/useDados";
 import { DadosService } from "../../../service/dados.api";
+import { ToastErro, ToastSucesso } from "../../../utils/Toastalert";
+
 
 export default function DadosCorporaisForm() {
   // ⚠️ depois vem do AuthContext
@@ -48,10 +50,12 @@ export default function DadosCorporaisForm() {
       }
 
       await recarregar();
-      alert("Dados salvos com sucesso!");
+      ToastSucesso("Dados atualizados com sucesso!");
+
     } catch (error) {
       console.error(error);
-      alert("Erro ao salvar dados");
+      ToastErro("Erro ao salvar os dados");
+
     } finally {
       setLoading(false);
     }

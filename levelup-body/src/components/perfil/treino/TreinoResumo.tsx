@@ -13,14 +13,11 @@ export default function TreinoResumo() {
         Treinos
       </span>
 
-      <h2 className="text-2xl font-bold mb-2">
+      <h2 className="text-2xl font-bold mb-4">
         Qual exercício você quer fazer hoje?
       </h2>
 
-      <p className="text-white/60 text-sm mb-6">
-        Escolha um tipo de treino para começar
-      </p>
-
+     
       {/* BOTÕES */}
       <div className="flex flex-col gap-3">
 
