@@ -66,18 +66,25 @@ export function Cadastro() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center relative"
-      style={{
-        backgroundImage: `url(${import.meta.env.BASE_URL}capivara-planodefundo5.png)`,
-      }}
-    >
+    <div className="min-h-screen w-full relative overflow-hidden">
+      {/* Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/assets/img/capivara-planodefundo.png')",
+        }}
+      />
+
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative z-10 min-h-screen flex items-center">
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 px-6">
           <div className="bg-black/40 backdrop-blur-md p-8 rounded-xl text-white">
-            <h1 className="text-5xl mb-2 font-medium">Crie sua Conta</h1>
+            <h1 className="text-5xl mb-2 font-medium">
+              Crie sua Conta
+            </h1>
+
             <p className="text-gray-300 text-2xl mb-6 font-medium">
               Cadastre-se e comece sua jornada
             </p>
@@ -114,13 +121,17 @@ export function Cadastro() {
                 type="password"
                 placeholder="Confirmar senha"
                 value={confirmarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
+                onChange={(e) =>
+                  setConfirmarSenha(e.target.value)
+                }
                 className="w-full px-4 py-3 rounded bg-black/50 border border-gray-600 focus:outline-none focus:border-orange-500"
                 required
               />
 
               {erro && (
-                <p className="text-red-500 text-sm text-center">{erro}</p>
+                <p className="text-red-500 text-sm text-center">
+                  {erro}
+                </p>
               )}
 
               <button
@@ -133,7 +144,9 @@ export function Cadastro() {
 
               <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-gray-600" />
-                <span className="text-sm text-gray-400">ou</span>
+                <span className="text-sm text-gray-400">
+                  ou
+                </span>
                 <div className="flex-1 h-px bg-gray-600" />
               </div>
 

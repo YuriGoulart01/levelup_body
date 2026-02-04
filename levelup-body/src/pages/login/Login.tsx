@@ -3,8 +3,6 @@ import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
-
-import "../../App.css";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
@@ -55,7 +53,7 @@ export default function Login() {
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/bg-login.png')" }}
+        style={{ backgroundImage: "url('/assets/img/bg-login.png')" }}
       />
 
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
@@ -74,7 +72,7 @@ export default function Login() {
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <img
-              src="/logomarca.png"
+              src="/assets/img/logomarca.png"
               alt="LevelUpBody"
               className="w-36 drop-shadow-2xl"
             />
