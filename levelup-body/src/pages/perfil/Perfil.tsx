@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   UserCircleIcon,
@@ -31,7 +32,7 @@ export default function Perfil() {
     "mensal" | "trimestral" | "semestral"
   >("mensal");
 
-  const background = "/backgrounds/semana1.png";
+  const background = "/backgrounds/semana3.png";
 
   return (
     <main className="w-full bg-black text-white">
