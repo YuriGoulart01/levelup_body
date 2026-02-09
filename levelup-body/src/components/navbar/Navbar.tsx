@@ -18,7 +18,7 @@ function Navbar() {
       });
     }
   }
-
+  
   return (
     <div className="w-full bg-gradient-to-b from-black to-zinc-900 text-white flex justify-center py-4 shadow-lg shadow-black/50">
       <div className="container flex justify-between text-lg items-center px-4">
@@ -47,7 +47,7 @@ function Navbar() {
 
           <button
             onClick={handlePerfilClick}
-            className="hover:text-orange-500 transition-all duration-300 hover:-translate-y-1"
+            className="cursor-pointer hover:text-orange-500 transition-all duration-300 hover:-translate-y-1"
           >
             Perfil
           </button>
