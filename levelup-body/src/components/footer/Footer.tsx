@@ -1,8 +1,22 @@
 import { InstagramLogo, LinkedinLogo, EnvelopeSimple, Phone } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Footer() {
   const date = new Date().getFullYear();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  function handlePerfilClick() {
+    if (user) {
+      navigate("/perfil");
+    } else {
+      navigate("/login", {
+        state: { origem: "perfil" },
+      });
+    }
+  }
 
   return (
     <>
@@ -43,10 +57,10 @@ function Footer() {
               <h3 className="text-lg font-bold mb-4 text-orange-500">Links Rápidos</h3>
               <ul className="flex flex-col gap-2 text-gray-400 text-sm">
                 <li>
-                    <Link to="/home" className="hover:text-white hover:underline transition-all">Home</Link>
+                    <Link to="/home" onClick={() => window.scrollTo(0, 0)} className="hover:text-white hover:underline transition-all">Home</Link>
                 </li>
                 <li>
-                    <Link to="/perfil" className="hover:text-white hover:underline transition-all">Meu Perfil</Link>
+                    <button onClick={handlePerfilClick} className="hover:text-white hover:underline transition-all">Meu Perfil</button>
                 </li>
                 <li>
                     <Link to="/cadastro" className="hover:text-white hover:underline transition-all">Cadastrar-se</Link>

@@ -7,9 +7,18 @@ import {
 } from "react";
 import { api } from "../service/api";
 
+type Usuario = {
+  id: number;
+  nome: string;
+  email?: string;
+  foto?: string;
+};
+
 type AuthContextData = {
   token: string | null;
+  user: Usuario | null;
   isAuthenticated: boolean;
+
   signIn: (usuario: string, senha: string) => Promise<void>;
   signInWithGoogle: (idToken: string) => Promise<void>;
   signOut: () => void;
@@ -23,54 +32,64 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<Usuario | null>(null);
 
-  // 🔁 Carrega token ao iniciar a aplicação
+  // 🔁 carrega sessão ao abrir site
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setToken(storedToken);
-    }
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken) setToken(storedToken);
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  // ✅ Estado derivado (padrão profissional)
   const isAuthenticated = !!token;
 
-  // 🔐 Login tradicional
-  async function signIn(usuario: string, senha: string) {
+  // 🔐 LOGIN NORMAL
+  async function signIn(usuarioLogin: string, senha: string) {
     const response = await api.post("/auth/logar", {
-      usuario,
+      usuario: usuarioLogin,
       senha,
     });
 
-    const { token } = response.data;
+    const { token, usuario } = response.data;
+
+    setToken(token);
+    setUser(usuario);
 
     localStorage.setItem("token", token);
-    setToken(token);
+    localStorage.setItem("user", JSON.stringify(usuario));
   }
 
-  // 🔐 Login com Google
+  // 🔐 LOGIN GOOGLE
   async function signInWithGoogle(idToken: string) {
     const response = await api.post("/auth/google", {
       idToken,
     });
 
-    const { token } = response.data;
+    const { token, usuario } = response.data;
+
+    setToken(token);
+    setUser(usuario);
 
     localStorage.setItem("token", token);
-    setToken(token);
+    localStorage.setItem("user", JSON.stringify(usuario));
   }
 
-  // 🚪 Logout
+  // 🚪 LOGOUT
   function signOut() {
-    localStorage.removeItem("token");
     setToken(null);
+    setUser(null);
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   }
 
   return (
     <AuthContext.Provider
       value={{
         token,
+        user,
         isAuthenticated,
         signIn,
         signInWithGoogle,
@@ -82,7 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+// hook global
 export function useAuth() {
   return useContext(AuthContext);
 }

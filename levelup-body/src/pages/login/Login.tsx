@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 export default function Login() {
   const { signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
@@ -21,6 +23,7 @@ export default function Login() {
     try {
       await signIn(usuario, senha);
       navigate("/");
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error(error);
       alert("Usuário ou senha inválidos");
@@ -31,7 +34,7 @@ export default function Login() {
 
   // 🔐 Login com Google
   const handleGoogleSuccess = async (
-    credentialResponse: CredentialResponse
+    credentialResponse: CredentialResponse,
   ) => {
     try {
       const idToken = credentialResponse.credential;
@@ -81,6 +84,19 @@ export default function Login() {
           <h2 className="text-center text-gray-300 mb-8 text-base">
             Evolua seu corpo. Suba de nível.
           </h2>
+
+          {/* mensagem quando veio do perfil */}
+          {location.state?.origem === "perfil" && (
+            <div className="bg-orange-500/10 border border-orange-500 text-orange-400 p-3 rounded-lg mb-6 text-center text-sm">
+              Para acessar seu perfil, faça login ou {" "}
+              <span
+                onClick={() => navigate("/cadastro")}
+                className="underline cursor-pointer font-semibold text-orange-300 hover:text-orange-200"
+              >
+                cadastre-se.
+              </span>{" "}
+            </div>
+          )}
 
           {/* Formulário */}
           <form className="space-y-5" onSubmit={handleSubmit}>

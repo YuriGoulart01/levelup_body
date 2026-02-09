@@ -16,6 +16,7 @@ export function Cadastro() {
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [erro, setErro] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sucesso, setSucesso] = useState("");
 
   // 🔐 Cadastro tradicional
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +37,11 @@ export function Cadastro() {
         senha,
       });
 
-      navigate("/login");
+      setSucesso("Usuário cadastrado com sucesso! Redirecionando para a página de login... ");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+      
     } catch (error: any) {
       setErro(
         error.response?.data?.message || "Erro ao realizar cadastro"
@@ -131,6 +136,12 @@ export function Cadastro() {
               {erro && (
                 <p className="text-red-500 text-sm text-center">
                   {erro}
+                </p>
+              )}
+
+              {sucesso && (
+                <p className="text-orange-500 text-sm text-center">
+                  {sucesso}
                 </p>
               )}
 

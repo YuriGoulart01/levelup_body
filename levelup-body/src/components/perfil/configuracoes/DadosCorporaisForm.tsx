@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDados } from "../../../hooks/useDados";
 import { DadosService } from "../../../service/dados.api";
 import { ToastErro, ToastSucesso } from "../../../utils/Toastalert";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function DadosCorporaisForm() {
   const { usuario } = useAuth();
