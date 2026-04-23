@@ -28,7 +28,7 @@ export default function HeaderHome() {
       {/* CAMADA 3 — GLOW LARANJA */}
       <div className="
         absolute inset-0
-        bg-[radial-gradient(circle_at_75%_40%,rgba(255,120,0,0.35),transparent_60%)]
+        bg-[radial-gradient(circle_at_75%_40%,rgba(255,120,0,0.35),transparent_80%)]
         z-20
         pointer-events-none
       " />
@@ -36,12 +36,12 @@ export default function HeaderHome() {
       {/* CAMADA 4 — CONTEÚDO */}
       <div className="relative z-30 max-w-3xl px-10 py-32">
         <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-          Unleash Your <br />
-          <span className="text-orange-500">Inner Beast</span>
+          Desperte sua  <br />
+          <span className="text-orange-500">Fera interior</span>
         </h1>
 
         <p className="mt-5 text-gray-300 text-lg max-w-xl">
-          Transform Your Fitness Journey
+          Transforme seu corpo e sua disciplina
         </p>
 
         <button className="
@@ -54,7 +54,7 @@ export default function HeaderHome() {
           font-semibold
           shadow-lg shadow-orange-500/30
         ">
-          Start Your Evolution
+          Comece sua evolução já!
         </button>
       </div>
 

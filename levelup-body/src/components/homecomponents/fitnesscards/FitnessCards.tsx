@@ -1,19 +1,21 @@
+import { FaDumbbell, FaAppleAlt, FaBed } from 'react-icons/fa'
+
 const cards = [
   {
     title: 'Treinos Efetivos',
-    icon: '🏋️',
+    icon: <FaDumbbell />,
     description:
       'Treinos bem estruturados aumentam resultados e reduzem riscos de lesão.',
   },
   {
     title: 'Dicas de Nutrição',
-    icon: '🥗',
+    icon: <FaAppleAlt />,
     description:
       'Uma alimentação equilibrada potencializa seus ganhos e sua recuperação.',
   },
   {
     title: 'Recuperação e Descanso',
-    icon: '😴',
+    icon: <FaBed />,
     description:
       'Descansar também faz parte do treino. O corpo evolui fora da academia.',
   },
