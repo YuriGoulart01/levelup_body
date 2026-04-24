@@ -1,10 +1,8 @@
 import PerfilGrafico from "./PerfilGrafico";
 import { useDados } from "../../../hooks/useDados";
 
-const usuarioId = 8;
-
 export default function PerfilEvolucao() {
-  const { dados, loading } = useDados(usuarioId);
+  const { dados, loading } = useDados();
 
   if (loading) {
     return (

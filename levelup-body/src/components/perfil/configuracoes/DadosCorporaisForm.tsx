@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDados } from "../../../hooks/useDados";
 import { DadosService } from "../../../service/dados.api";
 import { ToastErro, ToastSucesso } from "../../../utils/Toastalert";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function DadosCorporaisForm() {
   const { usuario } = useAuth();
@@ -10,12 +10,13 @@ export default function DadosCorporaisForm() {
   // segurança: se não estiver logado, não renderiza
   if (!usuario) return null;
 
+  // ✅ define o id corretamente
   const usuarioId = usuario.id;
 
-  const { ultimoDado, recarregar } = useDados(usuarioId);
+  const { ultimoDado, recarregar } = useDados();
 
   const [peso, setPeso] = useState("");
-  const [alturaCm, setAlturaCm] = useState(""); // altura em centímetros
+  const [alturaCm, setAlturaCm] = useState("");
   const [objetivo, setObjetivo] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +24,7 @@ export default function DadosCorporaisForm() {
   useEffect(() => {
     if (ultimoDado) {
       setPeso(String(ultimoDado.peso));
-      setAlturaCm(String(ultimoDado.altura * 100)); // m → cm
+      setAlturaCm(String(ultimoDado.altura * 100));
       setObjetivo(ultimoDado.objetivo ?? "");
     }
   }, [ultimoDado]);
@@ -49,7 +50,7 @@ export default function DadosCorporaisForm() {
           peso: Number(peso),
           altura: alturaEmMetros,
           objetivo,
-          usuario: { id: usuarioId },
+          usuario: { id: usuarioId }, // ✅ corrigido
         });
       }
 

@@ -7,7 +7,14 @@ import {
 } from "react";
 import { api } from "../service/api";
 
+type Usuario = {
+  id: number;
+  nome: string;
+  foto?: string;
+};
+
 type AuthContextData = {
+  usuario: Usuario | null;
   token: string | null;
   isAuthenticated: boolean;
   signIn: (usuario: string, senha: string) => Promise<void>;
@@ -17,59 +24,61 @@ type AuthContextData = {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
-  // 🔁 Carrega token ao iniciar a aplicação
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setToken(storedToken);
+    const tokenSalvo = localStorage.getItem("token");
+    const usuarioSalvo = localStorage.getItem("usuario");
+
+    if (tokenSalvo && usuarioSalvo) {
+      setToken(tokenSalvo);
+      setUsuario(JSON.parse(usuarioSalvo));
     }
   }, []);
 
-  // ✅ Estado derivado (padrão profissional)
   const isAuthenticated = !!token;
 
-  // 🔐 Login tradicional
-  async function signIn(usuario: string, senha: string) {
+  async function signIn(usuarioInput: string, senha: string) {
     const response = await api.post("/auth/logar", {
-      usuario,
+      usuario: usuarioInput,
       senha,
     });
 
-    const { token } = response.data;
+    const { token, usuario } = response.data;
 
     localStorage.setItem("token", token);
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+
     setToken(token);
+    setUsuario(usuario);
   }
 
-  // 🔐 Login com Google
   async function signInWithGoogle(idToken: string) {
     const response = await api.post("/auth/google", {
       idToken,
     });
 
-    const { token } = response.data;
+    const { token, usuario } = response.data;
 
     localStorage.setItem("token", token);
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+
     setToken(token);
+    setUsuario(usuario);
   }
 
-  // 🚪 Logout
   function signOut() {
-    localStorage.removeItem("token");
+    localStorage.clear();
     setToken(null);
+    setUsuario(null);
   }
 
   return (
     <AuthContext.Provider
       value={{
+        usuario,
         token,
         isAuthenticated,
         signIn,
@@ -82,7 +91,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext);
 }

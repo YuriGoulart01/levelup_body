@@ -96,8 +96,9 @@ export default function Perfil() {
             </div>
 
             <div className="mt-24">
-              {abaAtiva === "perfil" && <PerfilResumo />}
+              { abaAtiva === "perfil" && <PerfilResumo />}
 
+              
               {abaAtiva === "treinos" && <TreinoResumo />}
 
               {abaAtiva === "objetivos" && (
