@@ -7,7 +7,14 @@ import {
 } from "react";
 import { api } from "../service/api";
 
-type AuthContextData = {
+type Usuario = {
+  id: number;
+  nome: string;
+  foto?: string;
+};
+
+type AuthContextType = {
+  usuario: Usuario | null;
   token: string | null;
   isAuthenticated: boolean;
   signIn: (usuario: string, senha: string) => Promise<void>;
@@ -15,61 +22,78 @@ type AuthContextData = {
   signOut: () => void;
 };
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-export function AuthProvider({ children }: AuthProviderProps) {
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
-  // 🔁 Carrega token ao iniciar a aplicação
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setToken(storedToken);
+    const tokenSalvo = localStorage.getItem("token");
+    const usuarioSalvo = localStorage.getItem("usuario");
+
+    if (tokenSalvo && usuarioSalvo) {
+      setToken(tokenSalvo);
+      setUsuario(JSON.parse(usuarioSalvo));
     }
   }, []);
 
-  // ✅ Estado derivado (padrão profissional)
   const isAuthenticated = !!token;
 
-  // 🔐 Login tradicional
-  async function signIn(usuario: string, senha: string) {
+  // 🔐 LOGIN NORMAL
+  async function signIn(usuarioLogin: string, senha: string) {
     const response = await api.post("/auth/logar", {
-      usuario,
+      usuario: usuarioLogin,
       senha,
     });
 
-    const { token } = response.data;
+    const { token, usuario } = response.data;
 
-    localStorage.setItem("token", token);
-    setToken(token);
+    if (!token) throw new Error("Token não recebido");
+
+    const tokenLimpo = token.startsWith("Bearer ")
+      ? token.replace("Bearer ", "")
+      : token;
+
+    localStorage.setItem("token", tokenLimpo);
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+
+    setToken(tokenLimpo);
+    setUsuario(usuario);
   }
 
-  // 🔐 Login com Google
+  // 🔐 LOGIN GOOGLE
   async function signInWithGoogle(idToken: string) {
     const response = await api.post("/auth/google", {
       idToken,
     });
 
-    const { token } = response.data;
+    const { token, usuario } = response.data;
 
-    localStorage.setItem("token", token);
-    setToken(token);
+    if (!token) throw new Error("Token não recebido");
+
+    const tokenLimpo = token.startsWith("Bearer ")
+      ? token.replace("Bearer ", "")
+      : token;
+
+    localStorage.setItem("token", tokenLimpo);
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+
+    setToken(tokenLimpo);
+    setUsuario(usuario);
   }
 
-  // 🚪 Logout
   function signOut() {
     localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
     setToken(null);
+    setUsuario(null);
   }
 
   return (
     <AuthContext.Provider
       value={{
+        usuario,
         token,
         isAuthenticated,
         signIn,
@@ -82,7 +106,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext);
 }

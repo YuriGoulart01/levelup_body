@@ -1,12 +1,12 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import type { CredentialResponse } from "@react-oauth/google";
-import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const { signIn, signInWithGoogle } = useAuth();
+  const { signIn, signInWithGoogle } = useAuth(); // ✅ adicionamos o Google
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState("");
@@ -152,14 +152,14 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Divider */}
+          {/* DIVISOR */}
           <div className="flex items-center gap-4 my-8">
             <div className="flex-1 h-px bg-zinc-700" />
             <span className="text-zinc-400 text-sm">ou</span>
             <div className="flex-1 h-px bg-zinc-700" />
           </div>
 
-          {/* Google Login */}
+          {/* GOOGLE LOGIN */}
           <div className="flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
